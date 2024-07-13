@@ -1,0 +1,185 @@
+# # Create your views here.
+# from django.shortcuts import render, redirect
+# from .models import books
+# from django.contrib.auth import authenticate, login as auth_login
+# from django.contrib import messages
+# from django.contrib.auth.models import User
+# from django.contrib.auth.forms import UserCreationForm
+# from .forms import SignUpForm
+# from django.contrib.auth import logout
+# from django.core.mail import send_mail
+# from django.views.decorators.http import require_POST
+# from django.conf import settings
+
+# def home(request):
+#     return render(request, 'home.html')
+
+# def login(request):
+#     if request.method == 'POST':
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         user = authenticate(request, username=username, password=password)  # Assuming email is used as username
+
+#         if user is not None:
+#             auth_login(request, user)
+#             messages.success(request, 'Login successful!')
+#             return redirect('home')
+#         else:
+#             messages.error(request, 'Invalid email or password.')
+
+#     return render(request, 'login.html')
+
+
+# @require_POST
+# def logout_view(request):
+#     logout(request)
+#     return redirect('/home')  #   Ensure 'home' is the name of the URL pattern
+
+# def contact(request):
+#     if request.method == 'POST':
+#         chapter_name = request.POST['chapterName']
+#         chapter_content = request.POST['chapterContent']
+#         book_chapter = books(chapter_name=chapter_name, chapter_content=chapter_content)
+#         book_chapter.save()
+#         return redirect('contact')
+#     return render(request, 'contact.html')
+
+# def explore(request):
+#     books = books.objects.filter(status='APPROVED_BOOKS')
+#     return render(request, 'explore.html', {'books': books})
+
+
+# def signup(request):
+#     if request.method == 'POST':
+#         form = SignUpForm(request.POST)
+#         if form.is_valid():
+#             user = form.save(commit=False)
+#             user.set_password(form.cleaned_data['password'])
+#             user.save()
+#             login(user)
+#              # Send confirmation email
+#             subject = 'Registration Confirmation'
+#             message = f'Hi {user.username}, thank you for registering.'
+#             from_email = settings.EMAIL_HOST_USER
+#             to_list = [user.email]
+
+#             send_mail(subject, message, from_email, to_list, fail_silently=True)
+#             return redirect('home.html')  # Change 'home' to your desired redirect URL
+#     else:
+#         form = SignUpForm()
+#     return render(request, 'signup.html', {'form': form})
+
+# from .models import books, chapters
+
+# def add_book(request):
+#     if request.method == 'POST':
+#         # Create a new book instance
+#         new_book = books(
+#             book_name=request.POST['book_name'],
+#             book_description=request.POST['book_description'],
+#             chapter_number=request.POST['chapter_number'],
+#             # cover=request.FILES['cover'],
+#             author=request.POST['author'],
+#             published_date=request.POST['published_date']
+#         )
+
+#         # Save the book
+#         new_book.save()
+
+#         # Create a new chapter instance
+#         new_chapter = chapters(
+#             verified=True,
+#             content='',  # You might want to add content later
+#             chapter_name='Chapter 1'  # Default name, you can change this
+#         )
+
+#         # Save the chapter
+#         new_chapter.save()
+
+#         # Associate the chapter with the book
+#         new_book.chapters = new_chapter
+#         new_book.save()
+
+#         return redirect('book_list')  # Redirect to a page showing all books
+
+#     return render(request, 'add_book.html')
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView, DetailView
+from django.http import JsonResponse
+from .models import Book, Chapter, Contact
+from .forms import ContactForm, BookForm, ChapterForm
+
+
+def home(request):
+    return render(request, 'home.html')
+
+
+class ExploreView(ListView):
+    model = Book
+    template_name = 'explore.html'
+    context_object_name = 'books'
+
+
+class BookDetailView(DetailView):
+    model = Book
+    template_name = 'book_detail.html'
+    context_object_name = 'book'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['chapters'] = self.object.chapters.all()
+        return context
+
+
+@login_required
+def add_book(request):
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            book = form.save(commit=False)
+            book.author = request.user
+            book.save()
+            return redirect('book_detail', pk=book.pk)
+    else:
+        form = BookForm()
+    return render(request, 'add_book.html', {'form': form})
+
+
+@login_required
+def add_chapter(request, book_id):
+    book = Book.objects.get(id=book_id)
+    if request.method == 'POST':
+        form = ChapterForm(request.POST)
+        if form.is_valid():
+            chapter = form.save(commit=False)
+            chapter.book = book
+            chapter.order = book.chapters.count() + 1
+            chapter.save()
+            return JsonResponse({'success': True, 'chapter_id': chapter.id})
+    return JsonResponse({'success': False}, status=400)
+
+
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('contact_success')
+    else:
+        form = ContactForm()
+    return render(request, 'contact.html', {'form': form})
+
+
+def contact_success(request):
+    return render(request, 'contact_success.html')
+
+
+def show_chapter(request, chapter_id):
+    chapter = Chapter.objects.get(id=chapter_id)
+    return JsonResponse({
+        'name': chapter.name,
+        'content': chapter.content
+    })
