@@ -1,32 +1,42 @@
 from django import forms
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from .models import Book, Chapter
 
 
-class SignUpForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
-    password_confirm = forms.CharField(
-        widget=forms.PasswordInput, label="Confirm Password")
-
+class BookForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email', 'username', 'password']
+        model = Book
+        fields = ['title', 'description', 'author', 'published_date']
+        widgets = {
+            'published_date': forms.DateInput(attrs={'type': 'date'}),
+        }
 
-    def clean_password_confirm(self):
-        password = self.cleaned_data.get('password')
-        password_confirm = self.cleaned_data.get('password_confirm')
-        if password != password_confirm:
-            raise forms.ValidationError("Passwords do not match")
-        return password_confirm
+    def __init__(self, *args, **kwargs):
+        super(BookForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs.update({'class': 'form-control'})
+        self.fields['description'].widget.attrs.update(
+            {'class': 'form-control'})
+        self.fields['author'].widget.attrs.update({'class': 'form-control'})
+        self.fields['published_date'].widget.attrs.update(
+            {'class': 'form-control'})
 
 
-class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+class ChapterForm(forms.ModelForm):
+    class Meta:
+        model = Chapter
+        fields = ['name', 'book', 'content', 'order']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'book': forms.Select(attrs={'class': 'form-control'}),
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 10}),
+            'order': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
 
+    def __init__(self, *args, **kwargs):
+        super(ChapterForm, self).__init__(*args, **kwargs)
+        self.fields['book'].queryset = Book.objects.all().order_by('title')
 
-class BookAdd(forms.Form):
-    book_name = forms.CharField(label="bookName")
-    book_descp = forms.CharField(label="bookDescp")
-    chapter_no = forms.IntegerField()
-    author_name = forms.CharField(label="Author Name")
+    def clean_order(self):
+        order = self.cleaned_data.get('order')
+        if order <= 0:
+            raise forms.ValidationError("Order must be a positive integer.")
+        return order

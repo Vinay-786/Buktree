@@ -1,67 +1,66 @@
 {% extends 'books/base.html' %}
 
-{% block content %}
+    {% block content %}
 
-    {% csrf_token %}
-        <div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addBookModalLabel">Add Your Book</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="addBookForm">
-                            <div class="form-group">
-                                <label for="chapterName">Chapter Name</label>
-                                <input type="text" class="form-control" id="chapterName" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="chapterContent">Chapter Content</label>
-                                <textarea class="form-control" id="chapterContent" rows="10" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Save Chapter</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!--
+<div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="addBookModalLabel">Add Your Book</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<form id="addBookForm">
+<div class="form-group">
+<label for="chapterName">Chapter Name</label>
+<input type="text" class="form-control" id="chapterName" required>
+</div>
+<div class="form-group">
+<label for="chapterContent">Chapter Content</label>
+<textarea class="form-control" id="chapterContent" rows="10" required></textarea>
+</div>
+<button type="submit" class="btn btn-primary">Save Chapter</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+-->
 
 
     <!-- CHAPTER NAVIGATION SYSTEM  -->
 
 
-  <div class="container mt-4 chapter-container">
+    <div class="container mt-4 chapter-container">
     <div class="row">
-      <div class="col-md-4">
-        <h3>Chapters</h3>
-        <ul class="nav flex-column" id="chapter-list">
-          <!-- Initial chapters -->
-          <li class="nav-item">
+    <div class="col-md-4">
+    <h3>Chapters</h3>
+    <ul class="nav flex-column" id="chapter-list">
+        <!-- Initial chapters -->
+        <li class="nav-item">
             <a class="nav-link active" href="#" onclick="showChapter(1)">Chapter 1</a>
-          </li>
-          <li class="nav-item">
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="#" onclick="showChapter(2)">Chapter 2</a>
-          </li>
-          <li class="nav-item">
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="#" onclick="showChapter(3)">Chapter 3</a>
-          </li>
-        </ul>
+        </li>
+    </ul>
 
-  <form method="POST" action="{% url 'addbook' %}">
-    {% csrf_token %}
-    <input type="text" name="book_name" placeholder="Book Name">
-    <textarea name="book_description" placeholder="Book Description"></textarea>
-    <input type="number" name="chapter_number" placeholder="Number of Chapters">
-    <!-- <input type="file" name="cover"> -->
-    <input type="text" name="author" placeholder="Author Name">
-    <input type="date" name="published_date">
-    <button type="submit">Add Book</button>
+    <form method="POST" action="{% url 'addbook' %}">
+        {% csrf_token %}
+        <input type="text" name="book_name" placeholder="Book Name">
+        <textarea name="book_description" placeholder="Book Description"></textarea>
+        <input type="number" name="chapter_number" placeholder="Number of Chapters">
+        <!-- <input type="file" name="cover"> -->
+        <input type="text" name="author" placeholder="Author Name">
+        <input type="date" name="published_date">
+        <button type="submit">Add Book</button>
+    </form>
 
-</form>
-
-{% endblock content %}
+    {% endblock content %}

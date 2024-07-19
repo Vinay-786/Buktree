@@ -1,275 +1,98 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'books/base.html' %}
+{% load static %}
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 350px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 20px;
-            position: relative;
-        }
-
-        .title {
-            font-size: 28px;
-            color: royalblue;
-            font-weight: 600;
-            letter-spacing: -1px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            padding-left: 110px;
-        }
-
-        .title::before,
-        .title::after {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            border-radius: 50%;
-            left: 0px;
-            background-color: royalblue;
-        }
-
-        .title::before {
-            width: 18px;
-            height: 18px;
-            background-color: royalblue;
-        }
-
-        .title::after {
-            width: 18px;
-            height: 18px;
-            animation: pulse 1s linear infinite;
-        }
-
-        .message,
-        .signin {
-            color: rgba(88, 87, 87, 0.822);
-            font-size: 14px;
-        }
-
-        .signin {
-            text-align: center;
-        }
-
-        .signin a {
-            color: royalblue;
-        }
-
-        .signin a:hover {
-            text-decoration: underline royalblue;
-        }
-
-        .flex {
-            display: flex;
-            width: 100%;
-            gap: 6px;
-        }
-
-        .form label {
-            position: relative;
-        }
-
-        .form label .input {
-            width: 100%;
-            padding: 10px 10px 20px 10px;
-            outline: 0;
-            border: 1px solid rgba(105, 105, 105, 0.397);
-            border-radius: 10px;
-        }
-
-        .form label .input+span {
-            position: absolute;
-            left: 10px;
-            top: 15px;
-            color: grey;
-            font-size: 0.9em;
-            cursor: text;
-            transition: 0.3s ease;
-        }
-
-        .form label .input:placeholder-shown+span {
-            top: 15px;
-            font-size: 0.9em;
-        }
-
-        .form label .input:focus+span,
-        .form label .input:valid+span {
-            top: 0px;
-            font-size: 0.7em;
-            font-weight: 600;
-        }
-
-        .form label .input:valid+span {
-            color: green;
-        }
-
-        .submit {
-            border: none;
-            outline: none;
-            background-color: royalblue;
-            padding: 10px;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 16px;
-            transform: .3s ease;
-        }
-
-        .submit:hover {
-            background-color: rgb(56, 90, 194);
-            cursor: pointer;
-        }
-
-        @keyframes pulse {
-            from {
-                transform: scale(0.9);
-                opacity: 1;
-            }
-
-            to {
-                transform: scale(1.8);
-                opacity: 0;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'registerstyle.css' %}">
 </head>
-
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-        <a class="navbar-brand" href="{% url 'home' %}">BUKTREE</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}">Home</a>
-                </li>
-                {% if user.is_authenticated %}
-                <!-- Show logout link when user is authenticated -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                </li>
-                {% else %}
-                <!-- Show login link when user is not authenticated -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Login</a>
-                </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'explore' %}">Explore More</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <div class="container mt-5">
-        <center>
-            <h1>Welcome to BUKTREE</h1>
-            <p>Let's live under the shade of fiction</p>
-        </center>
-    </div>
+{% block content %}
+<div class="container mt-5">
     <center>
-            <h1> {{form.first_name}} </h1>
+        <h1>Welcome to BUKTREE</h1>
+        <p>Let's live under the shade of fiction</p>
+    </center>
+</div>
+<center>
     <form class="form" method="POST">
         {% csrf_token %}
-                <div class="flex">
-                    <label>
-                        <input class="input" type="text" name="first_name"
-                            {% if form.first_name.value %}
-                            value="{{ form.first_name.value }}"
-                            {% endif %}
-                            {% if form.first_name.field.required %} required {% endif %}>
-
-                        {% if form.first_name.errors %}
-                        <div class="error">{{ form.first_name.errors }}</div>
-                        {% endif %}
-                        <span>Firstname</span>
-                    </label>
-
-                    <label>
-                        <input class="input" type="text" name="last_name"
-                            {% if form.last_name.value %}
-                            value="{{ form.last_name.value }}"
-                            {% endif %}
-                            {% if form.last_name.field.required %}required{% endif %}>
-
-                        {% if form.last_name.errors %}
-                        <div class="error">{{ form.last_name.errors }}</div>
-                        {% endif %}
-                        <span>Lastname</span>
-                    </label>
-                </div>
-                <label>
-                    <input class="input" type="email" name="email"
-                        {% if form.email.value %}
-                        value="{{ form.email.value }}"
-                        {% endif %}
-                        {% if form.email.field.required %}required{% endif %}>
-
-                    {% if form.email.errors %}
-                    <div class="error">{{ form.email.errors }}</div>
+        <div class="flex">
+            <label>
+                <input class="input" type="text" name="first_name"
+                    {% if form.first_name.value %}
+                    value="{{ form.first_name.value }}"
                     {% endif %}
-                    <span>Email</span>
-                </label>
-                <label>
-                    <input class="input" type="text" name="username"
-                        {% if form.username.value %}
-                        value="{{ form.username.value }}"
-                        {% endif %}
-                        {% if form.username.field.required %}required{% endif %}>
+                    {% if form.first_name.field.required %} required {% endif %}>
 
-                    {% if form.username.errors %}
-                    <div class="error">{{ form.username.errors }}</div>
-                    {% endif %}
-                    <span>Username</span>
-                </label>
-                <label>
-                    <input class="input" type="password" name="password1"
-                        {% if form.password1.value %}
-                        value="{{ form.password1.value }}"
-                        {% endif %}
-                        {% if form.password1.field.required %}required{% endif %}>
+                {% if form.first_name.errors %}
+                <div class="error">{{ form.first_name.errors }}</div>
+                {% endif %}
+                <span>Firstname</span>
+            </label>
 
-                    {% if form.password1.errors %}
-                    <div class="error">{{ form.password1.errors }}</div>
+            <label>
+                <input class="input" type="text" name="last_name"
+                    {% if form.last_name.value %}
+                    value="{{ form.last_name.value }}"
                     {% endif %}
-                    <span>Password</span>
-                </label>
-                <label>
-                    <input class="input" type="password" name="password2"
-                        {% if form.password2.value %}
-                        value="{{ form.password2.value }}"
-                        {% endif %}
-                        {% if form.password2.field.required %}required{% endif %}>
+                    {% if form.last_name.field.required %}required{% endif %}>
 
-                    {% if form.password2.errors %}
-                    <div class="error">{{ form.password2.errors }}</div>
-                    {% endif %}
-                    <span>Confirm Password</span>
-                </label>
+                {% if form.last_name.errors %}
+                <div class="error">{{ form.last_name.errors }}</div>
+                {% endif %}
+                <span>Lastname</span>
+            </label>
+        </div>
+        <label>
+            <input class="input" type="email" name="email"
+                {% if form.email.value %}
+                value="{{ form.email.value }}"
+                {% endif %}
+                {% if form.email.field.required %}required{% endif %}>
+
+            {% if form.email.errors %}
+            <div class="error">{{ form.email.errors }}</div>
+            {% endif %}
+            <span>Email</span>
+        </label>
+        <label>
+            <input class="input" type="text" name="username"
+                {% if form.username.value %}
+                value="{{ form.username.value }}"
+                {% endif %}
+                {% if form.username.field.required %}required{% endif %}>
+
+            {% if form.username.errors %}
+            <div class="error">{{ form.username.errors }}</div>
+            {% endif %}
+            <span>Username</span>
+        </label>
+        <label>
+            <input class="input" type="password" name="password1"
+                {% if form.password1.value %}
+                value="{{ form.password1.value }}"
+                {% endif %}
+                {% if form.password1.field.required %}required{% endif %}>
+
+            {% if form.password1.errors %}
+            <div class="error">{{ form.password1.errors }}</div>
+            {% endif %}
+            <span>Password</span>
+        </label>
+        <label>
+            <input class="input" type="password" name="password2"
+                {% if form.password2.value %}
+                value="{{ form.password2.value }}"
+                {% endif %}
+                {% if form.password2.field.required %}required{% endif %}>
+
+            {% if form.password2.errors %}
+            <div class="error">{{ form.password2.errors }}</div>
+            {% endif %}
+            <span>Confirm Password</span>
+        </label>
         <button class="submit">Submit</button>
         <p class="signin">Already have an account? <a href="{% url 'login' %}">Signin</a></p>
     </form>
-    </center>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+</center>
 
-</html>
-
+{% endblock content %}
