@@ -7,7 +7,7 @@ def home(request):
 
 
 def addchapter(request):
-    return render(request, "contact.html")
+    return render(request, "books/newadd.html")
 
 
 def explore(request):
