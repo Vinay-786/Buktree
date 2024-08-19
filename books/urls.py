@@ -8,4 +8,8 @@ urlpatterns = [
     path("explore", views.explore, name="explore"),
     path("addbook", views.add_book, name="addbook"),
     path("addchapter", views.add_chapter, name="addchapter"),
+    path("tandc", views.tandc, name="termsandcondition"),
+    path("bookload", views.bookload, name="bookload"),
+    path("sendmail", views.ResetPass, name="sendmail"),
+    path("bookdetail/<int:book_id>", views.book_detail, name="bookdetail"),
 ]

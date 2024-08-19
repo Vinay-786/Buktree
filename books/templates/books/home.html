@@ -10,4 +10,64 @@
         <p>Let's live under the shade of fiction</p>
     </center>
 </div>
+<div class="container mt-5">
+    <div class="row" id="booksContainer">
+        {% for book in books %}
+        <div class="col-md-3 col-sm-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <p class="card-text">Author: {{ book.author }}</p>
+                    <p class="card-text">Published: {{ book.published_date }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+/* Rectangular card design */
+.card {
+    box-sizing: border-box;
+    width: 100%; /* Ensures card width is responsive */
+    height: 300px; /* Adjusted height for rectangular shape */
+    background: rgba(217, 217, 217, 0.58);
+    border: 1px solid white;
+    box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(6px);
+    border-radius: 17px;
+    cursor: pointer;
+    transition: all 0.5s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    color: black;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.card-text {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.card:hover {
+    border: 1px solid black;
+    transform: scale(1.05);
+}
+
+.card:active {
+    transform: scale(0.95) rotateZ(1.7deg);
+}
+</style>
+
 {% endblock content %}

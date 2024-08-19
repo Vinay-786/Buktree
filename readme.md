@@ -1,9 +1,3 @@
-# SCREENSHOT
-![Alt text](/static/signup.png?raw=true)
-![Alt text](/static/login.png?raw=true)
-![Alt text](/static/explore.png?raw=true)
-![Alt text](/static/addchapter.png?raw=true)
-
 # FOLLOW THE BELOW COMMANDS TO SET UP THE PROJECT:
 
 * create an environment using:
@@ -21,4 +15,11 @@
 # TO RUN THE PROJECT:
 
 * python run.py
+
+# SCREENSHOT
+![home](/static/home.png?raw=true)
+![signup](/static/signup.png?raw=true)
+![login](/static/login.png?raw=true)
+![explore](/static/explore.png?raw=true)
+![addchapter](/static/addchapter.png?raw=true)
 

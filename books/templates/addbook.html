@@ -1,13 +1,11 @@
 {% extends 'books/base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-<form method="POST" >
     {% csrf_token %}
     <input type="text" name="title" placeholder="Book Name">
     <textarea name="description" placeholder="Book Description"></textarea>
     <input type="text" name="author" placeholder="Author Name">
     <input type="date" name="published_date">
     <button type="submit">Add Book</button>
-</form>
 
 {% endblock content %}

@@ -5,7 +5,8 @@ from .models import Book, Chapter
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['title', 'description', 'author', 'published_date']
+        fields = ['title', 'description', 'author',
+                  'published_date', "book_cover"]
         widgets = {
             'published_date': forms.DateInput(attrs={'type': 'date'}),
         }
@@ -16,6 +17,8 @@ class BookForm(forms.ModelForm):
         self.fields['description'].widget.attrs.update(
             {'class': 'form-control'})
         self.fields['author'].widget.attrs.update({'class': 'form-control'})
+        self.fields['book_cover'].widget.attrs.update(
+            {'class': 'form-control'})
         self.fields['published_date'].widget.attrs.update(
             {'class': 'form-control'})
 

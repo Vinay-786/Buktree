@@ -12,8 +12,11 @@
           <li class="list-group-item">Chapter 3</li>
         </ul>
         <div class="mt-3">
-          <input type="text" class="form-control" placeholder="Enter chapter name...">
-          <button class="btn btn-primary mt-2">Add Chapter</button>
+          <input type="text" class="form-control" placeholder="New chapter name..."
+                        {%if form.title.value %}
+                        value="{{ form.title.value }}"
+                        {% endif %}
+                        {% if form.title.field.requierd %} requierd {% endif %}>
         </div>
       </div>
       <div class="col-md-9">

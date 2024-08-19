@@ -1,12 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
+    book_cover = models.ImageField(upload_to="media", default='default.jpg')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    published_date = models.DateField()
+    published_date = models.DateTimeField(default=timezone.now, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
