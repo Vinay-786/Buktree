@@ -29,4 +29,16 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logoutpage/', user_views.logoutpage, name="logoutpage"),
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('password-reset', auth_views.PasswordResetView.as_view(
+        template_name="registration/password_reset_form.html"), name='password_reset'),
+    path('password-reset/done', auth_views.PasswordResetDoneView.as_view(
+        template_name="registration/password_reset_done.html"), name='password_reset_done'),
+    path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetDoneView.as_view(
+        template_name="registration/password_reset_done.html"), name='password_reset_done'),
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL,
+                          document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

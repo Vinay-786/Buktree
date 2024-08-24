@@ -43,3 +43,7 @@ class ChapterForm(forms.ModelForm):
         if order <= 0:
             raise forms.ValidationError("Order must be a positive integer.")
         return order
+
+
+class ResetForm(forms.Form):
+    resetmail = forms.EmailField()

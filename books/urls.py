@@ -12,4 +12,5 @@ urlpatterns = [
     path("bookload", views.bookload, name="bookload"),
     path("sendmail", views.ResetPass, name="sendmail"),
     path("bookdetail/<int:book_id>", views.book_detail, name="bookdetail"),
+    path("resetpass", views.resetpass, name="resetmail")
 ]

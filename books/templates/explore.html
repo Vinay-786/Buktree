@@ -19,7 +19,7 @@
             <div class="col-md-3 col-sm-6 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">{{ book.title }}</h5>
+                        <a class="card-title" href="{% url 'bookdetail' book.id%}">{{ book.title }}</a>
                         <p class="card-text">Author: {{ book.author }}</p>
                         <p class="card-text">Published: {{ book.published_date }}</p>
                     </div>

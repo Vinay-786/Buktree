@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import BookForm, ChapterForm
+from .forms import BookForm, ChapterForm, ResetForm
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -12,20 +12,23 @@ def home(request):
 
 
 def addchapter(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = BookForm(request.POST)
         if form.is_valid():
             form.save()
             # Redirect to a view showing the list of books
-            return redirect('home')
+            return redirect("home")
     else:
         form = BookForm()
-    return render(request, "books/newadd.html", {'form': form})
+    return render(request, "books/newadd.html", {"form": form})
 
 
 def book_detail(request, book_id):
-    _ = Book.objects.get(id=book_id)
-    pass
+    book = Book.objects.get(pk=book_id)
+    chapters = book.chapters.all()
+
+    context = {"book": book, "chapters": chapters}
+    return render(request, "book_details.html", context)
 
 
 def explore(request):
@@ -35,27 +38,27 @@ def explore(request):
 
 @login_required
 def add_book(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             # Redirect to a view showing the list of books
-            return redirect('home')
+            return redirect("home")
     else:
         form = BookForm()
-    return render(request, 'add_book.html', {'form': form})
+    return render(request, "add_book.html", {"form": form})
 
 
 @login_required
 def add_chapter(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ChapterForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect("home")
     else:
         form = ChapterForm()
-    return render(request, 'add_chapter.html', {'form': form})
+    return render(request, "add_chapter.html", {"form": form})
 
 
 def tandc(request):
@@ -73,3 +76,8 @@ def ResetPass(request):
 
 def bookload(request):
     return render(request, "bookload.html")
+
+
+def resetpass(request):
+    form = ResetForm()
+    return render(request, "registration/password_reset_form.html", {"form": form})
