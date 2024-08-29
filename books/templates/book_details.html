@@ -16,21 +16,39 @@
             </div>
 
             <h5>Chapters</h5>
-            <div class="list-group">
-                {% for chapter in chapters %}
-                    {{ chapter }}
-                {% endfor %}
-            </div>
+            {% if chapters %}
+            <ul>
+                <div class="list-group">
+                    {% for chapter in chapters %}
+                        <li>
+                            <a href="{% url 'bookdetail' book.id chapter.id %}"
+                               {% if chapter.id == selected_chapter_id %}
+                               style="font-weight: bold;"
+                               {% endif %}> {{ chapter }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </div>
+            </ul>
+            {% else %}
+                <div class="list-group">
+                    No Chapter yet
+                </div>
+            {% endif %}
         </div>
 
         <!-- Right side: Chapter content -->
         <div class="col-md-8">
+            {% if chapter_content %}
             <div class="card">
                 <div class="card-body">
-                    <h3>{{ chapters.first }}</h3>
-                    <p>{{ chapters.first.content |linebreaks }}</p>
+                    <h3>Content of Selected Chapter</h3>
+                    <p>{{ chapter_content|safe }}</p>
                 </div>
+            {% else %}
+                <div class="card-body"> Select a chapter to view its content </div>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>

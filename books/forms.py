@@ -5,7 +5,7 @@ from .models import Book, Chapter
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['title', 'description', 'author',
+        fields = ['title', 'description',
                   'published_date', "book_cover"]
         widgets = {
             'published_date': forms.DateInput(attrs={'type': 'date'}),
@@ -16,7 +16,6 @@ class BookForm(forms.ModelForm):
         self.fields['title'].widget.attrs.update({'class': 'form-control'})
         self.fields['description'].widget.attrs.update(
             {'class': 'form-control'})
-        self.fields['author'].widget.attrs.update({'class': 'form-control'})
         self.fields['book_cover'].widget.attrs.update(
             {'class': 'form-control'})
         self.fields['published_date'].widget.attrs.update(
@@ -35,8 +34,10 @@ class ChapterForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
         super(ChapterForm, self).__init__(*args, **kwargs)
-        self.fields['book'].queryset = Book.objects.all().order_by('title')
+        if user is not None:
+            self.fields['book'].queryset = user.books.all().order_by('title')
 
     def clean_order(self):
         order = self.cleaned_data.get('order')

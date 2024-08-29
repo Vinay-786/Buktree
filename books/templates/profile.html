@@ -1,0 +1,61 @@
+{% extends 'books/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3 text-center">
+            <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
+        </div>
+        <div class="col-md-9">
+            <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12">
+            <h4>Books Written</h4>
+            <div class="row">
+                {% for book in books %}
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img class="card-img-top" src="{{ book.book_cover.url }}" alt="{{ book.title }} cover">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ book.title }}</h5>
+                            <p class="card-text">by {{ book.author }}</p>
+                            <p class="card-text"><small class="text-muted">Published: {{ book.published_date }}</small></p>
+                            <a href="{% url 'bookdetail' book.id %}" class="btn btn-primary btn-block">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        margin-top: 50px;
+    }
+
+    .rounded-circle {
+        width: 150px;
+        height: 150px;
+    }
+
+    .card {
+        border: none;
+    }
+
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .btn-block {
+        width: 100%;
+    }
+</style>
+{% endblock %}

@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import BookForm, ChapterForm, ResetForm
-from django.core.mail import send_mail
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from .models import Book
+from .models import Book, Chapter
 
 
 def home(request):
@@ -23,11 +21,21 @@ def addchapter(request):
     return render(request, "books/newadd.html", {"form": form})
 
 
-def book_detail(request, book_id):
+def book_detail(request, book_id, chapter_id=None):
     book = Book.objects.get(pk=book_id)
     chapters = book.chapters.all()
 
-    context = {"book": book, "chapters": chapters}
+    chapter_content = None
+    if chapter_id:
+        chapter = get_object_or_404(Chapter, pk=chapter_id, book=book)
+        chapter_content = chapter.content
+
+    context = {
+        "book": book,
+        "chapters": chapters,
+        "chapter_content": chapter_content,
+        "selected_chapter_id": chapter_id
+    }
     return render(request, "book_details.html", context)
 
 
@@ -41,37 +49,30 @@ def add_book(request):
     if request.method == "POST":
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            book = form.save(commit=False)
+            book.author = request.user
+            book.save()
             # Redirect to a view showing the list of books
             return redirect("home")
     else:
         form = BookForm()
-    return render(request, "add_book.html", {"form": form})
+    return render(request, "add_book_v2.html", {"form": form})
 
 
 @login_required
 def add_chapter(request):
     if request.method == "POST":
-        form = ChapterForm(request.POST)
+        form = ChapterForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
             return redirect("home")
     else:
-        form = ChapterForm()
-    return render(request, "add_chapter.html", {"form": form})
+        form = ChapterForm(user=request.user)
+    return render(request, "add_chapter_v2.html", {"form": form})
 
 
 def tandc(request):
     return render(request, "termsandcondition.html")
-
-
-def ResetPass(request):
-    subject = "Test mail"
-    message = "from vinay"
-    email_from = settings.EMAIL_HOST_USER
-    recipient_list = [""]
-    send_mail(subject, message, email_from, recipient_list)
-    return redirect("home")
 
 
 def bookload(request):
@@ -80,4 +81,11 @@ def bookload(request):
 
 def resetpass(request):
     form = ResetForm()
-    return render(request, "registration/password_reset_form.html", {"form": form})
+    return render(request, "registration/password_reset_form.html",
+                  {"form": form})
+
+
+def profile(request):
+    user = request.user
+    books = user.books.all()
+    return render(request, "profile.html", {"books": books})
