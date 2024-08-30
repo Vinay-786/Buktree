@@ -12,7 +12,7 @@
     <div class="container mt-5">
         <h2>Explore Books</h2>
         <form method="GET" action="">
-            <input type="text" class="form-control mb-4" name="q" placeholder="Search for books..." value="{{ query }}">
+            <input type="text" class="form-control mb-4" name="q" placeholder="Search for books..." value="{{query}}">
         </form>
         <div class="row" id="booksContainer">
             {% for book in books %}

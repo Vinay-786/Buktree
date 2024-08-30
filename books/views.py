@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import BookForm, ChapterForm, ResetForm
+from .forms import BookForm, ChapterForm
 from django.contrib.auth.decorators import login_required
 from .models import Book, Chapter
+from django.contrib.auth.models import User
 
 
 def home(request):
-    books = Book.objects.all()[0:4]
+    books = Book.objects.all()[0:8]
     return render(request, "books/home.html", {"books": books})
 
 
@@ -40,7 +41,18 @@ def book_detail(request, book_id, chapter_id=None):
 
 
 def explore(request):
-    books = Book.objects.all()
+    bookquery = request.GET.get("q",)
+    if bookquery:
+        try:
+            books = Book.objects.filter(title__icontains=bookquery)
+            users = User.objects.filter(username__icontains=bookquery)
+            if users.exists():
+                books = Book.objects.filter(author__in=users)
+        except User.DoesNotExist or Book.DoesNotExist:
+            books = Book.objects.none()
+    else:
+        books = Book.objects.all()
+
     return render(request, "explore.html", {"books": books})
 
 
@@ -77,12 +89,6 @@ def tandc(request):
 
 def bookload(request):
     return render(request, "bookload.html")
-
-
-def resetpass(request):
-    form = ResetForm()
-    return render(request, "registration/password_reset_form.html",
-                  {"form": form})
 
 
 def profile(request):

@@ -179,15 +179,15 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'profile' %}">Profile</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'bookload' %}">Add Book</a>
+            </li>
           {% else %}
             <!-- Show login link when user is not authenticated -->
             <li class="nav-item">
               <a class="nav-link" href="{% url 'login' %}">Login</a>
             </li>
           {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'bookload' %}">Add Book</a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'explore' %}">Explore More</a>
           </li>

@@ -30,4 +30,4 @@ class Chapter(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return f"{self.book.title} - Chapter {self.order}: {self.name}"
+        return f"Chapter {self.order}: {self.name}"
