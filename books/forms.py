@@ -1,8 +1,9 @@
 from django import forms
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Book, Chapter
 
 
-class BookForm(forms.ModelForm):
+class BookForm(forms.ModelForm, LoginRequiredMixin):
     class Meta:
         model = Book
         fields = ['title', 'description',
@@ -22,7 +23,7 @@ class BookForm(forms.ModelForm):
             {'class': 'form-control'})
 
 
-class ChapterForm(forms.ModelForm):
+class ChapterForm(forms.ModelForm, LoginRequiredMixin):
     class Meta:
         model = Chapter
         fields = ['name', 'book', 'content', 'order']
@@ -44,7 +45,3 @@ class ChapterForm(forms.ModelForm):
         if order <= 0:
             raise forms.ValidationError("Order must be a positive integer.")
         return order
-
-
-class ResetForm(forms.Form):
-    resetmail = forms.EmailField()

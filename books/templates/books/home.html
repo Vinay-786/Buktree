@@ -14,9 +14,12 @@
     <div class="row" id="booksContainer">
         {% for book in books %}
         <div class="col-md-3 col-sm-6 mb-4">
-            <div class="card">
+            <div class="card h-100">
+                <img src="{{ book.book_cover.url}}" class="card-img-top" alt="Cover image of {{ book.title }}">
                 <div class="card-body">
-                    <a class="card-title" href="{% url 'bookdetail' book.id%}">{{ book.title }}</a>
+                    <h5 class="card-title">
+                        <a href="{% url 'bookdetail' book.id %}">{{ book.title }}</a>
+                    </h5>
                     <p class="card-text">Author: {{ book.author }}</p>
                     <p class="card-text">Published: {{ book.published_date|date:"d/m/y" }}</p>
                 </div>

@@ -1,0 +1,38 @@
+{% extends 'books/base.html' %}
+{% load static %}
+
+<head>
+    <title>Signup</title>
+    <link rel="stylesheet" href="{% static 'registerstyle.css' %}">
+</head>
+{% block content %}
+<center>
+    <form class="form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+    <div class="form">
+        <div class="flex-column">
+            <label for="first_name">First Name</label>
+                {{ form.first_name}}
+        </div>
+        <div class="flex-column">
+            <label for="last_name">Last Name</label>
+                {{ form.last_name}}
+        </div>
+        <div class="flex-column">
+            <label for="email">Email </label>
+                {{ form.email}}
+        </div>
+        <div class="flex-column">
+            <label for="bio">Bio</label>
+                {{ form.bio }}
+        </div>
+        <div class="flex-column">
+                <label for="profile_img"> Profile</label>
+                {{ form.profile_img }}
+        </div>
+        <button class="submit">Submit</button>
+        <p class="signin">Already have an account? <a href="{% url 'login' %}">Signin</a></p>
+    </form>
+</center>
+
+{% endblock content %}

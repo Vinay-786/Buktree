@@ -4,12 +4,16 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-3 text-center">
-            <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
+            <img src="{{user.profile_img.url}}" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
         </div>
         <div class="col-md-9">
             <h3>{{ user.first_name }} {{ user.last_name }}</h3>
             <p><strong>Username:</strong> {{ user.username }}</p>
             <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Bio:</strong> {{ user.bio }}</p>
+            <a style="text-decoration:none" href="{% url 'updateprofile' %}"> Update Profile </a>
+        </div>
+        <div class="col-md-9">
         </div>
     </div>
     <hr>
