@@ -5,8 +5,8 @@
     <div class="row">
         <!-- Left side: Book cover and chapter list -->
         <div class="col-md-4">
-            <div class="card mb-4">
-                <img src="{{ book.book_cover.url }}" class="card-img-top" alt="{{ book.title }}">
+            <div class="card mb-4 shadow-sm rounded">
+                <img src="{{ book.book_cover.url }}" class="card-img-top" alt="{{ book.title }}" style="height: 300px; object-fit: cover;">
                 <div class="card-body">
                     <h5 class="card-title">{{ book.title }}</h5>
                     <p class="card-text"><strong>Author:</strong> {{ book.author }}</p>
@@ -17,22 +17,18 @@
 
             <h5>Chapters</h5>
             {% if chapters %}
-            <ul>
-                <div class="list-group">
-                    {% for chapter in chapters %}
-                        <li>
-                            <a href="{% url 'bookdetail' book.id chapter.id %}"
-                               {% if chapter.id == selected_chapter_id %}
-                               style="font-weight: bold;"
-                               {% endif %}> {{ chapter }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </div>
+            <ul class="list-group">
+                {% for chapter in chapters %}
+                    <li class="list-group-item {% if chapter.id == selected_chapter_id %}active{% endif %}">
+                        <a href="{% url 'bookdetail' book.id chapter.id %}" class="text-decoration-none {% if chapter.id == selected_chapter_id %}text-white{% endif %}">
+                            {{ chapter }}
+                        </a>
+                    </li>
+                {% endfor %}
             </ul>
             {% else %}
-                <div class="list-group">
-                    No Chapter yet
+                <div class="alert alert-secondary mt-3" role="alert">
+                    No chapters available yet.
                 </div>
             {% endif %}
         </div>
@@ -40,27 +36,21 @@
         <!-- Right side: Chapter content -->
         <div class="col-md-8">
             {% if chapter_content %}
-            <div class="card">
+            <div class="card shadow-sm rounded">
                 <div class="card-body">
                     <h3>Content of Selected Chapter</h3>
                     <p>{{ chapter_content|safe }}</p>
                 </div>
+            </div>
             {% else %}
-                <div class="card-body"> Select a chapter to view its content </div>
+            <div class="card shadow-sm rounded">
+                <div class="card-body">
+                    <p>Select a chapter to view its content.</p>
+                </div>
             </div>
             {% endif %}
         </div>
     </div>
 </div>
-
-<style>
-    .card {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .list-group-item.active {
-        background-color: #007bff;
-        border-color: #007bff;
-    }
-</style>
 {% endblock content %}
 

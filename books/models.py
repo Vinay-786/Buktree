@@ -12,6 +12,7 @@ class Book(models.Model):
         settings.AUTH_USER_MODEL, related_name="books",
         on_delete=models.CASCADE)
     published_date = models.DateTimeField(default=timezone.now, blank=True)
+    verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -24,7 +25,7 @@ class Chapter(models.Model):
     book = models.ForeignKey(
         Book, related_name='chapters', on_delete=models.CASCADE)
     content = models.TextField()
-    order = models.IntegerField()
+    order = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

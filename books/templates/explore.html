@@ -18,10 +18,11 @@
 <div class="container mt-5">
     <div class="row" id="booksContainer">
         {% for book in books %}
+        {% if book.verified %}
         <div class="col-md-3 col-sm-6 mb-4">
-            <div class="card h-100">
-                <img src="{{ book.book_cover.url}}" class="card-img-top" alt="Cover image of {{ book.title }}">
-                <div class="card-body">
+            <div class="card h-100 d-flex flex-column">
+                <img src="{{ book.book_cover.url }}" class="card-img-top" alt="Cover image of {{ book.title }}" style="width: 100%; height: 200px; object-fit: cover;">
+                <div class="card-body d-flex flex-column justify-content-between">
                     <h5 class="card-title">
                         <a href="{% url 'bookdetail' book.id %}">{{ book.title }}</a>
                     </h5>
@@ -30,6 +31,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
         {% endfor %}
     </div>
 </div>
