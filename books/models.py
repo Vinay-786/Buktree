@@ -7,7 +7,7 @@ class Book(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=100)
     book_cover = models.ImageField(
-        upload_to="book_cover", default='book_cover/default.jpg')
+        upload_to="book_cover", default='/default/default_book.jpg')
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="books",
         on_delete=models.CASCADE)

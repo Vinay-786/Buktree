@@ -7,4 +7,4 @@ class User(AbstractUser):
     bio = models.TextField(max_length=200)
     profile_img = ResizedImageField(
         size=[500, 300], upload_to="profile", blank=True,
-        null=True, default="profile/default.jpg")
+        null=True, default="/default/default_profile.jpg")
