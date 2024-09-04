@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import BookForm, ChapterForm
+from .forms import BookForm, ChapterForm, FeedbackForm
 from django.contrib.auth.decorators import login_required
 from .models import Book, Chapter
 from django.contrib.auth import get_user_model
@@ -8,20 +8,8 @@ User = get_user_model()
 
 
 def home(request):
-    books = Book.objects.all()[0:8]
+    books = Book.objects.filter(verified=True)[0:8]
     return render(request, "books/home.html", {"books": books})
-
-
-def addchapter(request):
-    if request.method == "POST":
-        form = BookForm(request.POST)
-        if form.is_valid():
-            form.save()
-            # Redirect to a view showing the list of books
-            return redirect("home")
-    else:
-        form = BookForm()
-    return render(request, "books/newadd.html", {"form": form})
 
 
 def book_detail(request, book_id, chapter_id=None):
@@ -46,14 +34,15 @@ def explore(request):
     bookquery = request.GET.get("q",)
     if bookquery:
         try:
-            books = Book.objects.filter(title__icontains=bookquery)
+            books = Book.objects.filter(
+                title__icontains=bookquery, verified=True)
             users = User.objects.filter(username__icontains=bookquery)
             if users.exists():
-                books = Book.objects.filter(author__in=users)
+                books = Book.objects.filter(author__in=users, verified=True)
         except User.DoesNotExist or Book.DoesNotExist:
             books = Book.objects.none()
     else:
-        books = Book.objects.all()
+        books = Book.objects.filter(verified=True)
 
     return render(request, "explore.html", {"books": books})
 
@@ -97,3 +86,14 @@ def profile(request):
     user = request.user
     books = user.books.all()
     return render(request, "profile.html", {"books": books})
+
+
+def feedback(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("home")
+    else:
+        form = FeedbackForm()
+    return render(request, "contactus.html", {"form": form})

@@ -5,8 +5,7 @@
     <title>Signup</title>
 </head>
 {% block content %}
-<center>
-    <form class="form" method="POST" enctype="multipart/form-data">
+    <form class="form m-auto" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="d-flex flex-column align-items-center">
             <div class="form-group row">
@@ -57,8 +56,6 @@
                 </div>
             </div>
         </div>
-        <p class="signin mt-3">Already have an account? <a href="{% url 'login' %}">Signin</a></p>
     </form>
-</center>
 
 {% endblock content %}

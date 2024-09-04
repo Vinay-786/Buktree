@@ -16,10 +16,11 @@
 
 * python run.py
 
+<!--
 # SCREENSHOT
 ![home](/static/home.png?raw=true)
 ![signup](/static/signup.png?raw=true)
 ![login](/static/login.png?raw=true)
 ![explore](/static/explore.png?raw=true)
 ![addchapter](/static/addchapter.png?raw=true)
-
+-->

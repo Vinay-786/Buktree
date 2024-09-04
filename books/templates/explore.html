@@ -1,12 +1,8 @@
 {% extends "books/base.html" %}
 
 {% block content %}
-    <div class="QUOTE">
-        <P>
-            <font size="40px" , color="black" ,font-family="">
-                <center>Let's live under the shade of fiction</center>
-            </font>
-        </P>
+    <div class="QUOTE mx-auto">
+        <h3>Let's live under the shade of fiction</h3>
     </div>
 
     <div class="container mt-5">
@@ -18,7 +14,6 @@
 <div class="container mt-5">
     <div class="row" id="booksContainer">
         {% for book in books %}
-        {% if book.verified %}
         <div class="col-md-3 col-sm-6 mb-4">
             <div class="card h-100 d-flex flex-column">
                 <img src="{{ book.book_cover.url }}" class="card-img-top" alt="Cover image of {{ book.title }}" style="width: 100%; height: 200px; object-fit: cover;">
@@ -31,7 +26,6 @@
                 </div>
             </div>
         </div>
-        {% endif %}
         {% endfor %}
     </div>
 </div>
