@@ -39,7 +39,7 @@
             <div class="card shadow-sm rounded">
                 <div class="card-body">
                     <h3>Content of Selected Chapter</h3>
-                    <p>{{ chapter_content|safe }}</p>
+                    <p>{{ chapter_content.html|safe}}</p>
                 </div>
             </div>
             {% else %}

@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'books',
     'users',
+    'django_quill',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',

@@ -30,7 +30,6 @@ class ChapterForm(forms.ModelForm, LoginRequiredMixin):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'book': forms.Select(attrs={'class': 'form-control'}),
-            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 10}),
             'order': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
