@@ -6,12 +6,15 @@
         <!-- Left side: Book cover and chapter list -->
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm rounded">
-                <img src="{{ book.book_cover.url }}" class="card-img-top" alt="{{ book.title }}" style="height: 300px; object-fit: cover;">
+                <img src="{{ book.book_cover.url }}" class="card-img-top" alt="{{ book.title }}" style="height: 400px; object-fit: cover;">
                 <div class="card-body">
                     <h5 class="card-title">{{ book.title }}</h5>
                     <p class="card-text"><strong>Author:</strong> {{ book.author }}</p>
                     <p class="card-text"><strong>Published:</strong> {{ book.published_date|date:"d/m/y" }}</p>
                     <p class="card-text">{{ book.description }}</p>
+
+                    <!-- Share button -->
+                    <button class="btn btn-primary mt-3" id="share-btn">Share this book</button>
                 </div>
             </div>
 
@@ -52,5 +55,47 @@
         </div>
     </div>
 </div>
+
+<style>
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .list-group-item.active {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    /* Disable text selection */
+    body {
+        user-select: none;
+        -webkit-user-select: none; /* Chrome, Safari */
+        -moz-user-select: none;    /* Firefox */
+        -ms-user-select: none;     /* IE/Edge */
+    }
+
+    /* Disable text selection for older browsers */
+    p, div, span {
+        -webkit-touch-callout: none; /* Disable long press context menu on mobile */
+    }
+</style>
+
+<!-- Disable right-click -->
+<script>
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+
+    // Share button logic
+    document.getElementById('share-btn').addEventListener('click', function() {
+        const currentUrl = window.location.href;
+        const tempInput = document.createElement('input');
+        tempInput.value = currentUrl;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        alert('Link copied to clipboard: ' + currentUrl);
+    });
+</script>
 {% endblock content %}
 

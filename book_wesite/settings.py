@@ -167,6 +167,43 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_REQUIRED = True
 LOGIN_REDIRECT_URL = '/'
 
+QUILL_CONFIGS = {
+    "default": {
+        "theme": "snow",
+        "modules": {
+            "syntax": True,
+            "toolbar": [
+                [
+                    {"font": []},
+                    {"header": []},
+                    {"align": []},
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strike",
+                    "blockquote",
+                    {"color": []},
+                ],
+                ["code-block", "link", "image"],
+                ["clean"],
+            ],
+            # quill-image-compress
+            "imageCompressor": {
+                "quality": 0.8,
+                "maxWidth": 1080,
+                "maxHeight": 720,
+                "imageType": "image/jpeg",
+                "debug": False,
+                "suppressErrorLogging": True,
+            },
+            # quill-resize
+            "resize": {
+                "showSize": True,
+                "locale": {},
+            },
+        },
+    },
+}
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {

@@ -34,7 +34,7 @@ class Chapter(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return f"Chapter {self.order}: {self.name}"
+        return f"{self.order}: {self.name}"
 
 
 class Feedback(models.Model):

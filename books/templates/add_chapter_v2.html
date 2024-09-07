@@ -266,12 +266,12 @@
     {% csrf_token %}
     <div class="form">
         <div class="flex-column">
-            <label for="id_title">Chapter Name</label>
-                {{ form.name}}
-        </div>
-        <div class="flex-column">
             <label for="id_author">Book </label>
                 {{ form.book}}
+        </div>
+        <div class="flex-column">
+            <label for="id_title">Chapter Name</label>
+                {{ form.name}}
         </div>
         <div class="flex-column">
             <label for="id_published_date">Content</label>
