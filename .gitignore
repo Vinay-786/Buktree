@@ -3,6 +3,8 @@ db.sqlite3
 
 static
 
+Dockerfile
+
 env
 */__pycache__/
 

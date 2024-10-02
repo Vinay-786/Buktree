@@ -12,7 +12,9 @@ admin.site.register(Book, BookAdmin)
 
 class ChapterAdmin(admin.ModelAdmin):
     list_display = ('name', 'book', 'content')
-    search_fields = ['name']
+    search_fields = ['name', 'book__title']
+    list_filter = ['book']
+    ordering = ('book', 'name')
 
 
 admin.site.register(Chapter, ChapterAdmin)
